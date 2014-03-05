@@ -5,6 +5,7 @@ Container compatible with std::array which dynamically allocates storage thus al
 
 Example output for darray performance test application...
 
+```
      0    std::array<std::array<float,100>, 100000> w/ 0 moves
    104    std::array<darray<float,100>, 100000> w/ 0 moves
      0    std::array<std::array<float,100000>, 100> w/ 0 moves
@@ -17,3 +18,4 @@ Example output for darray performance test application...
    737    std::array<darray<float,100>, 100000> w/ 500 moves
   2450    std::array<std::array<float,100000>, 100> w/ 500 moves
     61    std::array<darray<float,100000>, 100> w/ 500 moves
+```
