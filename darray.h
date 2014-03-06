@@ -14,11 +14,11 @@
 #include <memory>
 #include <cstddef>
 #include <limits>
+#include <initializer_list>
 
 // stands for dynamically allocated array
 // provides us O(1) moves as opposed to O(N) in std::array, but there is a performance hit on creation as we dynamically allocate memory from the heap
 // ultimately, it is most useful with large arrays that are required to move around, as opposed to small arrays where little moves are required.
-
 
 template <typename T, std::size_t N>
 class darray {
@@ -35,28 +35,32 @@ public:
 	typedef std::reverse_iterator<iterator>			reverse_iterator;
 	typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
 	
-	template <typename ... types >
-	darray(types ... values) : V(new value_type[N]{ static_cast<value_type>(values) ... }) {
-		
+	darray() : V(new value_type[N]{}) {
+	}
+	
+	darray(std::initializer_list<value_type> list) : V(new value_type[N]) {
+		std::copy(list.begin(), list.end(), begin());
 	}
 	
 	darray(darray const & other) : V(new value_type[N]) {
 		std::copy(other.begin(), other.end(), begin());
 	}
-	darray(darray<value_type, N> && other) {
+	darray(darray && other) {
 		swap(*this, other);
 	}
 	
-	darray & operator=(darray<value_type,N> const & other) {
+	darray & operator=(darray const & other) {
 		std::copy(other.begin(), other.end(), begin());
 		
 		return *this;
 	}
-	darray & operator=(darray<value_type,N> && other) {
+	darray & operator=(darray && other) {
 		swap(*this, other);
 		
 		return *this;
 	}
+	
+	virtual ~darray() = default;
 	
 	reference		front() { return V[0]; }
 	const_reference front() const { return V[0]; }
