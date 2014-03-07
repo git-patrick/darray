@@ -36,6 +36,7 @@ public:
 	typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
 	
 	darray() : V(new value_type[N]{}) {
+		
 	}
 	
 	darray(std::initializer_list<value_type> list) : V(new value_type[N]) {
@@ -127,5 +128,46 @@ public:
 private:
 	std::unique_ptr<value_type[]>	V;
 };
+
+
+template <typename T, std::size_t N>
+bool operator==(darray<T,N> const & a, darray<T,N> const & b) {
+	for (int i = 0; i < N; i++) {
+		if (a[i] != b[i])
+			return false;
+	}
+	
+	return true;
+}
+template <typename T, std::size_t N>
+bool operator<(darray<T,N> const & a, darray<T,N> const & b) {
+    for (int i = 0; i < N; i++) {
+        if (a[i] < b[i]) return true;
+        if (a[i] < b[i]) return false;
+    }
+    return false;
+}
+template <typename T, std::size_t N>
+bool operator<=(darray<T,N> const & a, darray<T,N> const & b) {
+    for (int i = 0; i < N; i++) {
+        if (a[i] < b[i]) return true;
+        if (a[i] < b[i]) return false;
+    }
+    return true;
+}
+
+template <typename T, std::size_t N>
+bool operator>(darray<T,N> const & a, darray<T,N> const & b) {
+    return !(a <= b);
+}
+template <typename T, std::size_t N>
+bool operator>=(darray<T,N> const & a, darray<T,N> const & b) {
+    return !(a < b);
+}
+template <typename T, std::size_t N>
+bool operator!=(darray<T,N> const & a, darray<T,N> const & b) {
+	return !(a == b);
+}
+
 
 #endif /* defined(__darray__) */
